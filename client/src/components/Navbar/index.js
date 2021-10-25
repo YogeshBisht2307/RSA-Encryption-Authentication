@@ -2,23 +2,19 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import {getCookie} from '../../components/csrftoken';
 
-const Nav = ({name, setName}) => {
+const Navbar = ({name, setName}) => {
     const csrftoken = getCookie('csrftoken')
     const Logout = async () => {
         await fetch('http://localhost:8000/api/authentication/logout/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken
-
             },
             credentials: 'include',
         });
         setName('');
     }
-    console.log(name)
-
     let menu;
-
     if (name === '') {
         menu = (
             <ul className="navbar-nav me-auto mb-2 mb-md-0">
@@ -53,4 +49,4 @@ const Nav = ({name, setName}) => {
     );
 };
 
-export default Nav;
+export default Navbar;

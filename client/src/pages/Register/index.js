@@ -3,6 +3,7 @@ import {Redirect} from 'react-router-dom';
 import {CSRFToken, getCookie} from '../../components/csrftoken';
 
 const Register = () => {
+    
     const csrftoken = getCookie('csrftoken')
     const [firstName, setFirstName] = useState('');
     const [email, setEmail] = useState('');
@@ -13,6 +14,7 @@ const Register = () => {
     const [unique_id, setUniqueID] = useState('');
     const [image, setImage] = useState('');
     const [redirect, setRedirect] = useState(false);
+
     const submit = async (e) => {
         e.preventDefault();
         if(password === confirm_password){
@@ -30,8 +32,8 @@ const Register = () => {
                 body: formData,
             });
             const data = await response.json();
-            console.log(data)
-            setRedirect(true);
+            if(data.email)
+                setRedirect(true);
         }
         else{
             alert("Password do not Match !")

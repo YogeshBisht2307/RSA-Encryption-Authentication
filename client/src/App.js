@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Nav from "./components/Navbar";
+import Navbar from "./components/Navbar";
 import {BrowserRouter, Route} from "react-router-dom";
 import Home from "./pages/Home";
 
@@ -26,7 +26,8 @@ const App = () => {
                         console.log("Unauthenticated User");
                 }
                 catch(error){
-                  console.log(error)
+                  console.log(error);
+                  alert("Unable to load Resource");
                 }
             }
         )();
@@ -35,7 +36,7 @@ const App = () => {
     return (
         <div className="App">
             <BrowserRouter>
-                <Nav name={name} setName={setName}/>
+                <Navbar name={name} setName={setName}/>
 
                 <main className="form-signin">
                     <Route path="/" exact component={() => <Home name={name}/>}/>

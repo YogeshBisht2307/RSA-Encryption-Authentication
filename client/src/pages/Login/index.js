@@ -3,7 +3,9 @@ import {Redirect} from "react-router-dom";
 import {CSRFToken, getCookie} from '../../components/csrftoken';
 
 const Login = ({setName}) => {
+
     const csrftoken = getCookie('csrftoken')
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
@@ -15,7 +17,6 @@ const Login = ({setName}) => {
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
-        
             },
             credentials: 'include',
             body: JSON.stringify({
@@ -26,9 +27,13 @@ const Login = ({setName}) => {
 
         const content = await response.json();
         console.log(content)
+        if(content.token){
+            setRedirect(true);
+            setName(content.first_name)
+        }
+        else
+            alert("Credential don't Match");
 
-        setRedirect(true);
-        setName(content.first_name);
     }
 
     if (redirect) {

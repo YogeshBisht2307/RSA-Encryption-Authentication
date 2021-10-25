@@ -30,7 +30,7 @@ const Home = ({name}) => {
     }
     return (
         <div>
-           <div className="Header"> {name ? 'Hi ' + name : 'You are not logged in'}</div>
+           <div className="Header center"> {name ? 'Hi ' + name : 'You are not logged in'}</div>
            <div className="container">
                <div className="col-md-4">
                 <div className="border rounded p-4 mt-5">
