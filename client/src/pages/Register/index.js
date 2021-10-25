@@ -19,16 +19,14 @@ const Register = () => {
             let formData = new FormData()
             formData.append("first_name", firstName);
             formData.append("last_name", lastName);
-            formData.append("age", age);
-            formData.append("unique_id", unique_id);
             formData.append("email", email);
             formData.append("password", password);
+            formData.append("unique_id", unique_id);
+            formData.append("age", age);
             formData.append("image", image);
             const response = await fetch('http://localhost:8000/api/authentication/register/', {
                 method: 'POST',
-                headers: {'Content-Type': 'multipart/form-data',
-                'X-CSRFToken': csrftoken},
-                credentials: 'include',
+                headers: {'X-CSRFToken': csrftoken},
                 body: formData,
             });
             const data = await response.json();
