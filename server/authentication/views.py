@@ -9,6 +9,7 @@ from authentication.rsa_algorithm import RSA_private_key, RSA_public_key
 # view for registration
 class RegisterView(APIView):
     def post(self, request, format=None):
+        print(request.data)
         serializer = UserSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

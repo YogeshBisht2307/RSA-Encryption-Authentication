@@ -17,10 +17,13 @@ const App = () => {
                       headers: {'Content-Type': 'application/json'},
                       credentials: 'include',
                     });
-                    console.log(response)
                     const content = await response.json();
-                    console.log(content)
-                    setName(content.email);
+                    if(content.first_name)
+                        setName(content.first_name);
+                    else if(content.email)
+                        setName(content.email);
+                    else
+                        console.log("Unauthenticated User");
                 }
                 catch(error){
                   console.log(error)

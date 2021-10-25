@@ -13,25 +13,26 @@ const Register = () => {
     const [unique_id, setUniqueID] = useState('');
     const [image, setImage] = useState('');
     const [redirect, setRedirect] = useState(false);
-
     const submit = async (e) => {
         e.preventDefault();
         if(password === confirm_password){
-            await fetch('http://localhost:8000/api/authentication/register/', {
+            let formData = new FormData()
+            formData.append("first_name", firstName);
+            formData.append("last_name", lastName);
+            formData.append("age", age);
+            formData.append("unique_id", unique_id);
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("image", image);
+            const response = await fetch('http://localhost:8000/api/authentication/register/', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json',
+                headers: {'Content-Type': 'multipart/form-data',
                 'X-CSRFToken': csrftoken},
-                body: JSON.stringify({
-                    firstName,
-                    lastName,
-                    age,
-                    unique_id,
-                    email,
-                    password,
-                    image
-                })
+                credentials: 'include',
+                body: formData,
             });
-
+            const data = await response.json();
+            console.log(data)
             setRedirect(true);
         }
         else{
@@ -49,31 +50,30 @@ const Register = () => {
             <form onSubmit={submit}>
                 <h1 className="h3 mb-3 fw-normal">Please register</h1>
 
-                <input className="form-control mt-2 mb-2" placeholder="First Name" required
+                <input type="text" className="form-control mt-2 mb-2" placeholder="First Name" id="first_name" required
                     onChange={e => setFirstName(e.target.value)}
                 />
                 <CSRFToken/>
-                <input className="form-control mt-2 mb-2" placeholder="Last Name" required
+                <input type="text" className="form-control mt-2 mb-2" placeholder="Last Name" id="last_name" required
                     onChange={e => setLastName(e.target.value)}
                 />
-                <input className="form-control mt-2 mb-2" placeholder="Age" required
+                <input type="number" className="form-control mt-2 mb-2" placeholder="Age" id="age" required
                     onChange={e => setAge(e.target.value)}
                 />
-                <input className="form-control mt-2 mb-2" placeholder="Unique ID" required
+                <input  type="text" className="form-control mt-2 mb-2" placeholder="Unique ID" id="unique_id" required
                     onChange={e => setUniqueID(e.target.value)}
                 />
-                <input type="email" className="form-control mt-2 mb-2" placeholder="Email address" required
+                <input type="email" className="form-control mt-2 mb-2" placeholder="Email address" id="email" required
                     onChange={e => setEmail(e.target.value)}
                 />
-                <input type="password" className="form-control mt-2 mb-2" placeholder="Password" required
+                <input type="password" className="form-control mt-2 mb-2" placeholder="Password" name="password" required
                     onChange={e => setPassword(e.target.value)}
                 />
-                <input type="text" className="form-control mt-2 mb-2" placeholder="Confirm Password" required
+                <input type="text" className="form-control mt-2 mb-2" placeholder="Confirm Password" id="confirm_password" required
                     onChange={e => setConfirmPasword(e.target.value)}
                 />
-                <input type="file" className="form-control mt-2 mb-2" name="image" required
-                    onChange={e => setImage({pictureAsFile : e.target.files[0]}
-                        )}
+                <input type="file"  className="form-control mt-2 mb-2" id="image"
+                    onChange={e => setImage(e.target.files[0])}
                 />
                 <button className="w-100 btn btn-lg btn-primary mt-2 mb-2" type="submit">Submit</button>
             </form>
